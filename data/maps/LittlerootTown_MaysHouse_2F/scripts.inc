@@ -13,6 +13,42 @@ LittlerootTown_MaysHouse_2F_OnTransition:
 	setvar VAR_SECRET_BASE_INITIALIZED, 0
 	end
 
+Virtopia_TimmyHouse2_Timmy::
+	compare VAR_LITTLEROOT_INTRO_STATE, 10
+	goto_if_ge Virtopia_Timmy_AfterPKMN
+	msgbox Text_TimmyGameIntro, MSGBOX_NPC
+	end
+
+Virtopia_Timmy_AfterPKMN::
+	msgbox Text_TimmyAfterPKMN, MSGBOX_NPC
+	end
+
+Text_TimmyAfterPKMN:
+	.string "TIMMY: Hello {PLAYER}!\n"
+	.string "Just came in to say hi?\p"
+	.string "Oh golly! You have been given your very\n"
+	.string "own Pokémon by Prof. Derek too!\p"
+	.string "I am so excited to go on an adventure\n"
+	.string "out in Bepis, and now even more excited\l"
+	.string "that you will be out there too!\p"
+	.string "I am sure that we are both going to do\n"
+	.string "fantastic out there!$"
+
+Text_TimmyGameIntro:
+	.string "TIMMY: Hello {PLAYER}!\n"
+	.string "Just came in to say hi?\p"
+	.string "Guess what friend, I just got my very\n"
+	.string "own Pokémon from Prof. Derek!\p"
+	.string "I'm so excited, I can't wait to learn so\n"
+	.string "much about the world!\p"
+	.string "My parents were against letting me go\n"
+	.string "out at first, but once word spread\l"
+	.string "around of your mom wanting to send you\l"
+	.string "out on an adventure, my parents finally\l"
+	.string "let me go!\p"
+	.string "Isn't this so exciting! I hope that\n"
+	.string "Prof. Derek gives you a Pokémon too!$"
+
 LittlerootTown_MaysHouse_2F_EventScript_CheckShouldUpdateMayPos::
 	goto_if_set FLAG_MET_RIVAL_LILYCOVE, LittlerootTown_MaysHouse_2F_EventScript_TryUpdateMayPos
 	goto_if_ge VAR_BIRCH_LAB_STATE, 2, LittlerootTown_MaysHouse_2F_EventScript_Ret

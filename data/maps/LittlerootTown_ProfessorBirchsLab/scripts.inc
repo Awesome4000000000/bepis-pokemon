@@ -6,9 +6,9 @@
 .set LOCALID_BALL_CHIKORITA, 6
 
 LittlerootTown_ProfessorBirchsLab_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_ProfessorBirchsLab_OnTransition
-	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_ProfessorBirchsLab_OnWarp
-	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_ProfessorBirchsLab_OnFrame
+@	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_ProfessorBirchsLab_OnTransition
+@	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_ProfessorBirchsLab_OnWarp
+@	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_ProfessorBirchsLab_OnFrame
 	.byte 0
 
 	@ State descriptions for VAR_DEX_UPGRADE_JOHTO_STARTER_STATE
@@ -33,6 +33,107 @@ LittlerootTown_ProfessorBirchsLab_OnTransition:
 	goto_if_ge VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_SetJohtoStarterLayout
 	goto_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 3, LittlerootTown_ProfessorBirchsLab_EventScript_CheckReadyForJohtoStarter
 	end
+
+Virtopia_Prof_Derek::
+	lock
+	faceplayer
+	compare VAR_LITTLEROOT_INTRO_STATE, 9
+	goto_if_eq Virtopia_Derek_Intro
+	compare VAR_LITTLEROOT_INTRO_STATE, 10
+	goto_if_eq Virtopia_Derek_Intro_BackToMom
+	release
+	end
+
+Virtopia_Derek_Intro_BackToMom:
+	msgbox Text_Derek_BackToMom, MSGBOX_DEFAULT
+	release
+	end
+
+Virtopia_Derek_Intro::
+	msgbox Text_Derek_Intro, MSGBOX_DEFAULT
+	playfanfare MUS_OBTAIN_ITEM
+	message LittlerootTown_ProfessorBirchsLab_Text_ReceivedPokedex
+	waitfanfare
+
+	msgbox Text_Derek_Intro_2, MSGBOX_DEFAULT
+	special ChooseStarter
+	setvar VAR_0x8004, 0
+	call Common_EventScript_NameReceivedPartyMon
+	msgbox Text_Derek_Intro_3, MSGBOX_DEFAULT
+	setvar VAR_LITTLEROOT_INTRO_STATE, 10
+	setflag FLAG_SYS_POKEDEX_GET
+	special SetUnlockedPokedexFlags
+	setflag FLAG_RECEIVED_POKEDEX_FROM_BIRCH
+	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 1
+	setflag FLAG_SYS_POKEMON_GET
+	setflag FLAG_SYS_NATIONAL_DEX
+	special EnableNationalPokedex
+	setflag FLAG_ADVENTURE_STARTED
+	release
+	end
+
+Text_Derek_Intro_3:
+	.string "Very well then... you are now properly \n"
+	.string "equipped to handle any rough\l"
+	.string "situations that you might find \l"
+	.string "yourself in.\p"
+	.string "Remember that it's a dangerous world\n"
+	.string "out there... I hope that whatever you're\l"
+	.string "doing out there is worth it.\p"
+	.string "Be sure to go back and tell your mother\n"
+	.string "that I've given you permission to leave.\l"
+	.string "The gatekeeper out front of town has\l"
+	.string "been trained to not let anyone pass\l"
+	.string "unless both your parents and I allow it.\p"
+	.string "Alrighty then...\p"
+	.string "Good luck out there {PLAYER}... you are\n"
+	.string "going to need it.$"
+
+Text_Derek_Intro_2:
+	.string "That device there automatically \n"
+	.string "records all of the data of any Pokémon\l"
+	.string "that you might find out there.\p"
+	.string "Be sure to get as much data as you can,\n"
+	.string "any amount of it greatly improves my\l"
+	.string "research, and ill give you some rewards\l"
+	.string "for reaching certain milestones as an\l"
+	.string "added incentive for you as well.\p"
+	.string "Now... as promised... pick any one of\n"
+	.string "these three Pokémon that you like.$"
+
+Text_Derek_Intro:
+	.string "Eh...?\p"
+	.string "Oh, it's you.... {PLAYER} was it?\p"
+	.string "No need to explain yourself to me, I \n"
+	.string "already know why you're here.\p"
+	.string "Now listen, I know that everyone here\n"
+	.string "in this town looks down on you, but I \l"
+	.string "can see your true potential as a strong\l"
+	.string "trainer.\p"
+	.string "The Bepis region is very dangerous you \n"
+	.string "see... there are many established gangs\l"
+	.string "running about.\p"
+	.string "The Eliminate Villains Immediately \n"
+	.string "Legion, located in the heart of\l"
+	.string "Beptopolis City tries to keep them all\l"
+	.string "under control, but two notable gangs\l"
+	.string "are still wreaking havoc and causing\l"
+	.string "problems wherever they go.\p"
+	.string "I'm deciding to give you your first\n"
+	.string "Pokémon so that you can survive out\l"
+	.string "there, but only under one condition!\p"
+	.string "You see... if I'm going to let you risk\n"
+	.string "leaving the safety of Virtopia for\l"
+	.string "whatever you have in mind, the least\l"
+	.string "you can do is help me with my research\l"
+	.string "while on your travels.$"
+
+Text_Derek_BackToMom:
+	.string "Head on back and tell your mother that\n"
+	.string "I've given you permission to leave town.\p"
+	.string "Make sure to come back every so often\n"
+	.string "so I can rate your Pokédex... ill give\l"
+	.string "you various rewards if you do!$"
 
 LittlerootTown_ProfessorBirchsLab_EventScript_CheckReadyForJohtoStarter::
 	specialvar VAR_RESULT, HasAllHoennMons
@@ -813,14 +914,15 @@ LittlerootTown_ProfessorBirchsLab_Text_SeriousLookingMachine:
 	.string "The PROF must use this for research.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_PCUsedForResearch:
-	.string "It's a PC used for research.\n"
+	.string "It's a PC used for minesweeper.\n"
 	.string "Better not mess around with it.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_CrammedWithBooksOnPokemon:
 	.string "It's crammed with books on POKéMON.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BookTooHardToRead:
-	.string "It's a book that's too hard to read.$"
+	.string "It's a book that's too hard to read.\p"
+	.string "Dumbass.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_OtherRegionsUpgradeToNational:
 	.string "PROF. BIRCH: Now…\p"

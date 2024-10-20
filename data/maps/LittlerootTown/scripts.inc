@@ -4,8 +4,8 @@
 .set LOCALID_BIRCH, 8
 
 LittlerootTown_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_OnTransition
-	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_OnFrame
+@	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_OnTransition
+@	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_OnFrame
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_OnWarp
 	.byte 0
 
@@ -16,11 +16,13 @@ LittlerootTown_MapScripts::
 	@ 4: Received Running Shoes
 
 	@ State descriptions for VAR_LITTLEROOT_INTRO_STATE
-	@ 1: In truck male
-	@ 2: In truck female
-	@ 3: Entered house
-	@ 4: Told to go set clock
-	@ 5: Entered 2F to set clock
+	@ This is being used for the intro of hack up until the end of the first town
+	@ 0: Not set yet
+	@ 8: after the end of the mom talk, before setting the clock
+	@ 9: after setting the clock
+	@ 10: after going to the lab
+	@ 11: after talking to mom after getting pokemon
+	@ 12: defeated gatekeeper
 	@ 6: Set clock
 	@ 7: Told to go meet rival
 
@@ -39,19 +41,223 @@ LittlerootTown_MapScripts::
 	@ 4: Received Pokedex
 
 
-LittlerootTown_OnTransition:
-	setflag FLAG_VISITED_LITTLEROOT_TOWN
-	call Common_EventScript_SetupRivalGfxId
-	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_MoveMomToMaysDoor
-	call_if_unset FLAG_RESCUED_BIRCH, LittlerootTown_EventScript_SetTwinPos
-	call_if_eq VAR_LITTLEROOT_TOWN_STATE, 3, LittlerootTown_EventScript_SetMomStandingInFrontOfDoorPos
-	call_if_eq VAR_LITTLEROOT_HOUSES_STATE_MAY, 4, LittlerootTown_EventScript_SetExitedHouseAfterLatiSSTicketEvent
-	call_if_eq VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 4, LittlerootTown_EventScript_SetExitedHouseAfterLatiSSTicketEvent
-	call_if_eq VAR_OLDALE_RIVAL_STATE, 1, LittlerootTown_EventScript_MoveRivalFromOldale
-	call_if_eq VAR_LITTLEROOT_RIVAL_STATE, 3, LittlerootTown_EventScript_SetRivalLeftForRoute103
-	call_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_HideMapNamePopup
-	call_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 2, LittlerootTown_EventScript_LeftLabAfterDexUpgrade
+@LittlerootTown_OnTransition:
+@	setflag FLAG_VISITED_LITTLEROOT_TOWN
+@	call Common_EventScript_SetupRivalGfxId
+@	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_MoveMomToMaysDoor
+@	call_if_unset FLAG_RESCUED_BIRCH, LittlerootTown_EventScript_SetTwinPos
+@	call_if_eq VAR_LITTLEROOT_TOWN_STATE, 3, LittlerootTown_EventScript_SetMomStandingInFrontOfDoorPos
+@	call_if_eq VAR_LITTLEROOT_HOUSES_STATE_MAY, 4, LittlerootTown_EventScript_SetExitedHouseAfterLatiSSTicketEvent
+@	call_if_eq VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 4, LittlerootTown_EventScript_SetExitedHouseAfterLatiSSTicketEvent
+@	call_if_eq VAR_OLDALE_RIVAL_STATE, 1, LittlerootTown_EventScript_MoveRivalFromOldale
+@	call_if_eq VAR_LITTLEROOT_RIVAL_STATE, 3, LittlerootTown_EventScript_SetRivalLeftForRoute103
+@	call_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_HideMapNamePopup
+@	call_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 2, LittlerootTown_EventScript_LeftLabAfterDexUpgrade
+@	end
+
+Virtopia_Gatekeeper::
+	compare VAR_LITTLEROOT_INTRO_STATE, 11
+	goto_if_lt Virtopia_Gatekeeper_No_Entry
+	compare VAR_LITTLEROOT_INTRO_STATE, 11
+	goto_if_gt Virtopia_Gatekeeper_Post
+	compare VAR_LITTLEROOT_INTRO_STATE, 11
+	lock
+	faceplayer
+	msgbox Text_Virtopia_Gatekeeper_Before_Battle, MSGBOX_DEFAULT
+	fadeoutbgm 15
+	delay 15
+	clearflag FLAG_RESCUED_BIRCH
+	addobject 7
+	msgbox Text_Virtopia_Timmy_Before_Battle, MSGBOX_DEFAULT
+	playbgm MUS_ENCOUNTER_MAY, FALSE
+	applymovement 7, Virtopia_Timmy_Enter
+	msgbox Text_Virtopia_Gatekeeper_Battle, MSGBOX_DEFAULT
+	applymovement OBJ_EVENT_ID_PLAYER, Virtopia_Player_Move_For_Timmy
+	waitmovement OBJ_EVENT_ID_PLAYER
+	applymovement 7, Virtopia_Timmy_Walk_Up
+	msgbox Text_Virtopia_Gatekeeper_Battle_2, MSGBOX_DEFAULT
+	applymovement 7, Virtopia_Timmy_Face_Player
+	msgbox Text_Virtopia_Gatekeeper_Battle_3, MSGBOX_DEFAULT
+	switch VAR_STARTER_MON
+	case 0, Virtopia_Timmy_Battle_Grass
+	case 1, Virtopia_Timmy_Battle_Fire
+	case 2, Virtopia_Timmy_Battle_Water
 	end
+
+Virtopia_Timmy_Battle_Grass::
+	trainerbattle_no_intro TRAINER_TIMMMY_VIRTOPIA_GRASS, Virtopia_Timmy_Defeated
+	goto Virtopia_Timmy_Post_Battle
+	end
+
+
+Virtopia_Timmy_Battle_Fire::
+	trainerbattle_no_intro TRAINER_TIMMMY_VIRTOPIA_FIRE, Virtopia_Timmy_Defeated
+	goto Virtopia_Timmy_Post_Battle
+	end
+
+
+Virtopia_Timmy_Battle_Water::
+	trainerbattle_no_intro TRAINER_TIMMMY_VIRTOPIA_WATER, Virtopia_Timmy_Defeated
+	goto Virtopia_Timmy_Post_Battle
+	end
+
+Virtopia_Timmy_Defeated:
+	.string "Holy cow! {PLAYER}... you are simply\n"
+	.string "amazing!$"
+
+Virtopia_Timmy_Post_Battle::
+	release
+	end
+
+Text_Virtopia_Gatekeeper_Battle_3:
+	.string "Timmy: We will show her just how good we\n"
+	.string "can both be at battling!\p"
+	.string "Are you ready, {PLAYER}? I do hope that\n"
+	.string "you will try your hardest and have\l"
+	.string "plenty of fun during our battle!$"
+
+Virtopia_Timmy_Face_Player:
+	face_left
+	step_end
+
+Text_Virtopia_Gatekeeper_Battle_2:
+	.string "Timmy: Excuse me, but my good friend\n"
+	.string "{PLAYER} is most definitely a worthy\l"
+	.string "trainer, and both of us should be\l"
+	.string "allowed outside of town!\p"
+	.string "Gatekeeper: Ha! Both the poorest and\n"
+	.string "dumbest people in town think they have\l"
+	.string "what it takes to pass!\p"
+	.string "Timmy: We will show you we have what it\n"
+	.string "takes to become great trainers, by\l"
+	.string "demonstrating our skills with a mind-\l"
+	.string "blowing battle!\p"
+	.string "Gatekeeper: I'm sure that the only\n"
+	.string "thing mind-blowing that this battle\l"
+	.string "would be is how boring it is!$"
+
+Virtopia_Player_Move_For_Timmy:
+	walk_left
+	face_right
+	step_end
+
+Virtopia_Timmy_Walk_Up:
+	walk_up
+	step_end
+
+Virtopia_Timmy_Enter:
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	step_end
+
+Text_Virtopia_Gatekeeper_Battle:
+	.string "Timmy: Pardon me {PLAYER}, but I could\n"
+	.string "not help but overhear what she just\l"
+	.string "said to you!$"
+
+Text_Virtopia_Timmy_Before_Battle:
+	.string "???: Hey! That is no way to talk to my\n"
+	.string "friend!$"
+
+Text_Virtopia_Gatekeeper_Before_Battle:
+	.string "Hey! You can't leave here!\p"
+	.string "Even though you have both Prof. Derek\n"
+	.string "and your mother's permission to leave, I\l"
+	.string "don't think you are even close to\l"
+	.string "capable of surviving outside alone!\p"
+	.string "You don't even have any money!\p"
+	.string "You have no worth as a person, and even\n"
+	.string "less worth as a Pokémon trainer!$"
+
+Virtopia_Gatekeeper_Post::
+	msgbox Text_Virtopia_Gatekeeper_Post, MSGBOX_NPC
+	end
+
+Text_Virtopia_Gatekeeper_Post:
+	.string "The mind is blown.$"
+
+Virtopia_Gatekeeper_No_Entry::
+	msgbox Text_Virtopia_Gatekeeper_No_Entry, MSGBOX_NPC
+	lock
+	applymovement OBJ_EVENT_ID_PLAYER, Virtopia_Kicked_Out
+	applymovement 1, Virtopia_Kicked_Out
+	waitmovement 1
+	applymovement 1, Virtopia_Gatekeeper_Return_To_Pos
+	waitmovement 1
+	release
+	end
+
+Virtopia_Kicked_Out:
+	lock_facing_direction
+	walk_down
+	walk_down
+	walk_down
+	unlock_facing_direction
+	step_end
+
+Virtopia_Gatekeeper_Return_To_Pos:
+	lock_facing_direction
+	walk_up
+	walk_up
+	walk_up
+	unlock_facing_direction
+	face_down
+	step_end
+
+Text_Virtopia_Gatekeeper_No_Entry:
+	.string "Hey! You cant pass through here!\p"
+	.string "You know the town rules! Nobody is\n"
+	.string "allowed to leave here unless both the\l"
+	.string "Professor and your parents allow it!\p"
+	.string "Go back into your broke-ass home, you\n"
+	.string "can't even afford to buy my time!$"
+
+Virtopia_WallGirl::
+	msgbox Text_Virtopia_WallGirl, MSGBOX_NPC
+	end
+
+Text_Virtopia_WallGirl:
+	.string "I love how secure the walls that keep\n"
+	.string "us inside Virtopia make me feel.\p"
+	.string "I would hate for any more nasty\n"
+	.string "peasants to find their way in here like\l"
+	.string "you have...$"
+
+Virtopia_GardenGirl::
+	msgbox Text_Virtopia_GardenGirl, MSGBOX_NPC
+	end
+
+Text_Virtopia_GardenGirl:
+	.string "Once you have near-infinite money like\n"
+	.string "me, you can pick up all kinds of hobbies!\p"
+	.string "I love maintaining the gardens all\n"
+	.string "around Virtopia.\p"
+	.string "It's so unfortunate that your family is\n"
+	.string "so poor, or else I would invite you to\l"
+	.string "garden with me.$"
+
+LittlerootTown_FlowersBoy::
+	msgbox Text_FlowersBoy, MSGBOX_NPC
+	end
+
+Text_FlowersBoy:
+	.string "I just love living the high life every\n"
+	.string "day in Virtopia Town.\p"
+	.string "You can really stop to smell the\n"
+	.string "expensive meticulously placed flowers.$"
+
+LittlerootTown_EventScript_Dereks_House_Sign::
+	msgbox Dereks_House_Text, MSGBOX_SIGN
+	end
+
+Dereks_House_Text:
+	.string "Prof. Derek's House$"
 
 LittlerootTown_EventScript_LeftLabAfterDexUpgrade::
 	setvar VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 3
@@ -91,7 +297,6 @@ LittlerootTown_EventScript_SetTwinGuardingRoutePos::
 	return
 
 LittlerootTown_EventScript_SetMomStandingInFrontOfDoorPos::
-	clearflag FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE
 	setobjectmovementtype LOCALID_MOM, MOVEMENT_TYPE_FACE_DOWN
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, LittlerootTown_EventScript_SetMomInFrontOfDoorMale
@@ -106,11 +311,11 @@ LittlerootTown_EventScript_SetMomInFrontOfDoorFemale::
 	setobjectxyperm LOCALID_MOM, 14, 9
 	return
 
-LittlerootTown_OnFrame:
-	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittlerootTown_EventScript_StepOffTruckMale
-	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_StepOffTruckFemale
-	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_BeginDexUpgradeScene
-	.2byte 0
+@LittlerootTown_OnFrame:
+@	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittlerootTown_EventScript_StepOffTruckMale
+@	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_StepOffTruckFemale
+@	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_BeginDexUpgradeScene
+@	.2byte 0
 
 LittlerootTown_EventScript_StepOffTruckMale::
 	lockall
@@ -159,7 +364,6 @@ LittlerootTown_EventScript_GoInsideWithMom::
 	applymovement LOCALID_MOM, LittlerootTown_Movement_MomEnterHouse
 	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_Movement_PlayerEnterHouse
 	waitmovement 0
-	setflag FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE
 	setvar VAR_LITTLEROOT_INTRO_STATE, 3
 	hideobjectat OBJ_EVENT_ID_PLAYER, 0
 	closedoor VAR_0x8004, VAR_0x8005
@@ -958,16 +1162,23 @@ LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "Go on, go get them, honey!$"
 
 LittlerootTown_Text_CanUsePCToStoreItems:
-	.string "If you use a PC, you can store items\n"
-	.string "and POKéMON.\p"
-	.string "The power of science is staggering!$"
+	.string "The power of science is staggering!\p"
+	.string "I just got my fourth PC with flashing\n"
+	.string "rainbow RGB and now my neighbors can't\l"
+	.string "sleep at night!\p"
+	.string "...\p"
+	.string "If only you weren't so broke, then\n"
+	.string "maybe you would see how amazing the\l"
+	.string "power of technology is too.$"
 
 LittlerootTown_Text_BirchSpendsDaysInLab:
-	.string "PROF. BIRCH spends days in his LAB\n"
-	.string "studying, then he'll suddenly go out in\l"
-	.string "the wild to do more research…\p"
-	.string "When does PROF. BIRCH spend time\n"
-	.string "at home?$"
+	.string "Prof. Derek is so cool, its so exciting\n"
+	.string "that Virtopia's founder is also the\l"
+	.string "Bepis region's very own Pokémon\l"
+	.string "Professor!\p"
+	.string "You're so lucky to be living here, even\n"
+	.string "that little shack you call a house must\l"
+	.string "have cost so much money to rent!$"
 
 LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut:
 	.string "Um, um, um!\p"
@@ -996,17 +1207,17 @@ LittlerootTown_Text_GoodLuckCatchingPokemon:
 	.string "Good luck!$"
 
 LittlerootTown_Text_TownSign:
-	.string "LITTLEROOT TOWN\n"
-	.string "“A town that can't be shaded any hue.”$"
+	.string "VIRTOPIA TOWN\n"
+	.string "“Secured luxary living every day.”$"
 
 LittlerootTown_Text_ProfBirchsLab:
-	.string "PROF. BIRCH'S POKéMON LAB$"
+	.string "PROF. DEREK'S POKéMON LAB$"
 
 LittlerootTown_Text_PlayersHouse:
 	.string "{PLAYER}'s HOUSE$"
 
 LittlerootTown_Text_ProfBirchsHouse:
-	.string "PROF. BIRCH'S HOUSE$"
+	.string "TIMMY's HOUSE$"
 
 LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 	.string "PROF. BIRCH: Well, well, {PLAYER}{KUN}!\n"

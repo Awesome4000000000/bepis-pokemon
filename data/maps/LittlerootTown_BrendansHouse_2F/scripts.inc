@@ -3,6 +3,7 @@
 LittlerootTown_BrendansHouse_2F_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_BrendansHouse_2F_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_BrendansHouse_2F_OnWarp
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_BrendansHouse_2F_OnFrame
 	.byte 0
 
 LittlerootTown_BrendansHouse_2F_OnTransition:
@@ -12,6 +13,162 @@ LittlerootTown_BrendansHouse_2F_OnTransition:
 	call SecretBase_EventScript_SetDecorationFlags
 	setvar VAR_SECRET_BASE_INITIALIZED, 0
 	end
+
+LittlerootTown_BrendansHouse_2F_OnFrame:
+	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 0, LittlerootTown_BH2F_IntroMom
+	.2byte 0
+
+LittlerootTown_TalkToMom::
+	lock
+	faceplayer
+	compare VAR_LITTLEROOT_INTRO_STATE, 8
+	goto_if_eq LittlerootTown_MomWallClockReminder
+	compare VAR_LITTLEROOT_INTRO_STATE, 9
+	goto_if_eq LittlerootTown_MomSeeProfDerekReminder
+	compare VAR_LITTLEROOT_INTRO_STATE, 10
+	goto_if_eq Virtopia_Mom_Intro_Final
+	compare VAR_LITTLEROOT_INTRO_STATE, 11
+	goto_if_eq Virtopia_Mom_Intro_Final_Real
+	release
+	end
+
+Virtopia_Mom_Intro_Final::
+	msgbox Text_Virtopia_Mom_Intro_Final, MSGBOX_DEFAULT
+	setvar VAR_LITTLEROOT_INTRO_STATE, 11
+	release
+	end
+
+Text_Virtopia_Mom_Intro_Final:
+	.string "You're back! How did things go at Prof.\n"
+	.string "Derek's lab?\p"
+	.string "Wow! Your very own Pokémon! With that\n"
+	.string "little guy by your side, nothing can\l"
+	.string "stop us from making back our money!\p"
+	.string "Since you ended up getting a Pokémon,\n"
+	.string "ill give you my permission to leave town.\l"
+	.string "That gatekeeper in front of town sure\l"
+	.string "is as strict as they come!\p"
+	.string "Now remember, although the Bepis region\n"
+	.string "is big and full of dangers and mystery,\l"
+	.string "your ultimate goal is to earn cash!\p"
+	.string "Whenever you feel like you have enough\n"
+	.string "money, just let me know and ill tell you!\p"
+	.string "Good luck out there and good fortunes\n"
+	.string "to both you and your new Pokémon!$"
+
+Virtopia_Mom_Intro_Final_Real::
+	msgbox Text_Virtopia_Mom_Intro_Final_Real, MSGBOX_DEFAULT
+	release
+	end
+
+Text_Virtopia_Mom_Intro_Final_Real:
+	.string "Just head to the north of town to the\n"
+	.string "left of Prof. Derek's lab to head out!\l"
+	.string "Good luck out there {PLAYER}!$"
+
+LittlerootTown_MomSeeProfDerekReminder::
+	msgbox Text_LittlerootTown_MomSeeProfDerekReminder, MSGBOX_NPC
+	release
+	end
+
+Text_LittlerootTown_MomSeeProfDerekReminder:
+	.string "Follow the path to the north of town\n"
+	.string "and ask Prof. Derek about getting your\l"
+	.string "Pokémon so we can start making back\l"
+	.string "our money!\p"
+	.string "Please come back here once you do and\n"
+	.string "tell me how it goes.$"
+
+LittlerootTown_MomWallClockReminder::
+	msgbox Text_LittlerootTown_MomWallClockReminder, MSGBOX_NPC
+	release
+	end
+
+Text_LittlerootTown_MomWallClockReminder:
+	.string "Please help fix the clock in our house.\n"
+	.string "You can't miss it, it's one of 3 pieces\l"
+	.string "of furniture we own right now.$"
+
+LittlerootTown_MomIntroDontLeaveClock::
+	lock
+	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_PlayerLookUp
+	waitmovement 0
+	applymovement 1, LittlerootTown_MomLookLeft
+	msgbox Text_IntroMomDontLeaveClock, MSGBOX_DEFAULT
+	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_PlayerMoveUp
+	waitmovement 0
+	release
+	end
+
+LittlerootTown_PlayerMoveUp:
+	walk_up
+	walk_up
+	step_end
+
+Text_IntroMomDontLeaveClock:
+	.string "Don't leave yet {PLAYER}! You still\n"
+	.string "haven't set up the wall clock!$"
+
+LittlerootTown_PlayerLookUp:
+	face_up
+	step_end
+
+LittlerootTown_MomLookLeft:
+	face_left
+	step_end
+
+LittlerootTown_BH2F_IntroMom::
+	lock
+	setvar VAR_LITTLEROOT_INTRO_STATE, 8
+	applymovement 1, MomSuprise
+	playse SE_PIN
+	waitse
+	waitmovement 1
+	msgbox Text_IntroMomAwake, MSGBOX_DEFAULT
+	applymovement 1, MomMoveDown
+	applymovement OBJ_EVENT_ID_PLAYER, LittlerootTown_PlayerLookUp
+	waitmovement 1
+	msgbox Text_IntroMomBroke, MSGBOX_DEFAULT
+	setflag FLAG_RESCUED_BIRCH
+	release
+	end
+
+Text_IntroMomBroke:
+	.string "Unfortunately, I decided to gamble our\n"
+	.string "entire family's life savings away and we\l"
+	.string "have no more money.\p"
+	.string "However, there is a way to get it back!\p"
+	.string "Since you are finally old enough to get\n"
+	.string "your first Pokémon, we need you to go\l"
+	.string "talk to Prof. Derek in his lab and try\l"
+	.string "and convince him to give you one of his.\p"
+	.string "That way, you can win all the money back\n"
+	.string "for us out in the dangerous world where\l"
+	.string "serious injury or death are real\l"
+	.string "consequences if you fail!\p"
+	.string "Don't worry though, the reward is well\n"
+	.string "worth the risk and soon we will have all\l"
+	.string "of our money back and more!\p"
+	.string "Before you go though, please help fix\n"
+	.string "the clock on the wall.\p"
+	.string "That clock is one of our last\n"
+	.string "possessions and I can't figure out how\l"
+	.string "to set the time correctly.$"
+
+Text_IntroMomAwake:
+	.string "{PLAYER}, you're finally awake! Get up\n"
+	.string "off the ground! I have something very\l"
+	.string "important to tell you!$"
+
+MomMoveDown:
+	walk_down
+	step_end
+
+MomSuprise:
+	emote_exclamation_mark
+	delay_16
+	step_end
+
 
 LittlerootTown_BrendansHouse_2F_EventScript_CheckShouldUpdateBrendanPos::
 	goto_if_set FLAG_MET_RIVAL_LILYCOVE, LittlerootTown_BrendansHouse_2F_EventScript_TryUpdateBrendanPos
@@ -277,14 +434,14 @@ PlayersHouse_2F_Text_ClockIsStopped:
 	.string "Better set it and start it!$"
 
 PlayersHouse_2F_Text_HowDoYouLikeYourRoom:
-	.string "MOM: {PLAYER}, how do you like your\n"
-	.string "new room?\p"
-	.string "Good! Everything's put away neatly!\p"
-	.string "They finished moving everything in\n"
-	.string "downstairs, too.\p"
-	.string "POKéMON movers are so convenient!\p"
-	.string "Oh, you should make sure that\n"
-	.string "everything's all there on your desk.$"
+	.string "Fantastic! Now we can accurately tell \n"
+	.string "the time.\p"
+	.string "Speaking of time, it's time for you to\n"
+	.string "make your way over to Prof. Derek's lab.\p"
+	.string "Just follow the path and enter the long\n"
+	.string "building to the north.\p"
+	.string "Oh, and don't forget to head back here\n"
+	.string "after and tell me what he says!$"
 
 PlayersHouse_2F_Text_Notebook:
 	.string "{PLAYER} flipped open the notebook.\p"
