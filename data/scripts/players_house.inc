@@ -64,21 +64,26 @@ PlayersHouse_2F_EventScript_WallClock::
 	delay 30
 	setvar VAR_LITTLEROOT_INTRO_STATE, 9
 	setflag FLAG_SET_WALL_CLOCK
-	releaseall
+	goto PlayersHouse_2F_EventScript_MomComesUpstairsMale
 	end
 
 PlayersHouse_2F_EventScript_MomComesUpstairsMale::
-	setvar VAR_0x8008, LOCALID_MOM_2F
-	addobject VAR_0x8008
-	applymovement VAR_0x8008, PlayersHouse_2F_Movement_MomEntersMale
+	lock
+	applymovement OBJ_EVENT_ID_PLAYER, Virtopia_AfterClockPlayerLookDown
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
+	applymovement 1, LittlerootTown_AfterClockMomLookUp
+	waitmovement 1
 	msgbox PlayersHouse_2F_Text_HowDoYouLikeYourRoom, MSGBOX_DEFAULT
-	closemessage
-	applymovement VAR_0x8008, PlayersHouse_2F_Movement_MomExitsMale
-	waitmovement 0
-	return
+	releaseall
+	end
+
+Virtopia_AfterClockPlayerLookDown:
+	face_down
+	step_end
+
+LittlerootTown_AfterClockMomLookUp:
+	face_up
+	step_end
 
 PlayersHouse_2F_EventScript_MomComesUpstairsFemale::
 	setvar VAR_0x8008, LOCALID_MOM_2F

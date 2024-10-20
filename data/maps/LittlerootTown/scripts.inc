@@ -64,8 +64,8 @@ Virtopia_Gatekeeper::
 	lock
 	faceplayer
 	msgbox Text_Virtopia_Gatekeeper_Before_Battle, MSGBOX_DEFAULT
-	fadeoutbgm 15
-	delay 15
+	fadeoutbgm 3
+	delay 3
 	clearflag FLAG_RESCUED_BIRCH
 	addobject 7
 	msgbox Text_Virtopia_Timmy_Before_Battle, MSGBOX_DEFAULT
@@ -79,9 +79,9 @@ Virtopia_Gatekeeper::
 	applymovement 7, Virtopia_Timmy_Face_Player
 	msgbox Text_Virtopia_Gatekeeper_Battle_3, MSGBOX_DEFAULT
 	switch VAR_STARTER_MON
-	case 0, Virtopia_Timmy_Battle_Grass
-	case 1, Virtopia_Timmy_Battle_Fire
-	case 2, Virtopia_Timmy_Battle_Water
+	case 0, Virtopia_Timmy_Battle_Fire
+	case 1, Virtopia_Timmy_Battle_Water
+	case 2, Virtopia_Timmy_Battle_Grass
 	end
 
 Virtopia_Timmy_Battle_Grass::

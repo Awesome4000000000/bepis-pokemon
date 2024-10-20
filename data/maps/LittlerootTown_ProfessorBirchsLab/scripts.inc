@@ -92,7 +92,7 @@ Text_Derek_Intro_3:
 Text_Derek_Intro_2:
 	.string "That device there automatically \n"
 	.string "records all of the data of any Pokémon\l"
-	.string "that you might find out there.\p"
+	.string "that you might discover.\p"
 	.string "Be sure to get as much data as you can,\n"
 	.string "any amount of it greatly improves my\l"
 	.string "research, and ill give you some rewards\l"
