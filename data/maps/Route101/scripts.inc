@@ -7,11 +7,11 @@ Route101_MapScripts::
 	.byte 0
 
 Route101_OnTransition:
-
+	call ProfBirch_EventScript_UpdateLocation
 	end
 
 Route101_OnFrame:
-
+	map_script_2 VAR_ROUTE101_STATE, 0, Route101_EventScript_HideMapNamePopup
 	.2byte 0
 
 Route101_EventScript_HideMapNamePopup::
@@ -218,10 +218,6 @@ Route101_EventScript_RouteSign::
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 
-Route101_EventScript_RouteSign2::
-	msgbox Route101_Text_RouteSign2, MSGBOX_SIGN
-	end
-
 Route101_EventScript_BirchsBag::
 	lock
 	faceplayer
@@ -301,10 +297,6 @@ Route101_Text_WildPokemonInTallGrass:
 	.string "to go into the tall grass and search.$"
 
 Route101_Text_RouteSign:
-	.string "ROUTE 1\n"
-	.string "{UP_ARROW} BATTLE VILLAGE$"
-
-Route101_Text_RouteSign2:
-	.string "ROUTE 1\n"
-	.string "{DOWN_ARROW} VIRTOPIA TOWN$"
+	.string "ROUTE 101\n"
+	.string "{UP_ARROW} OLDALE TOWN$"
 

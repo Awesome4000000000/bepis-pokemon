@@ -13,48 +13,6 @@ LittlerootTown_BrendansHouse_1F_OnLoad:
 	call_if_set FLAG_RECEIVED_RUNNING_SHOES, LittlerootTown_BrendansHouse_1F_EventScript_CheckShowShoesManual
 	end
 
-Virtopia_TimmySister::
-	msgbox Text_TimmySister, MSGBOX_NPC
-	end
-
-Text_TimmySister:
-	.string "Timmy talks about you all the time.\n"
-	.string "I never knew that poor people had\l"
-	.string "feelings until he told me that you're\l"
-	.string "such a good friend to him!$"
-
-Virtopia_TimmyHouse1_Dad::
-	lock
-	faceplayer
-	msgbox Text_TimmyDad, MSGBOX_NPC
-	release
-	end
-
-Text_TimmyDad:
-	.string "I'm so glad that you are here to be the\n"
-	.string "town misfit.\p"
-	.string "I am very grateful that my son Timmy\n"
-	.string "can never be the outcast so long as you\l"
-	.string "are living in Virtopia.$"
-
-Virtoptia_TimmyHouse1_Mom::
-	lock
-	faceplayer
-	msgbox Text_TimmyMom, MSGBOX_NPC
-	release
-	end
-
-Text_TimmyMom:
-	.string "Oh my, how are you today {PLAYER}?\p"
-	.string "Are you still doing okay despite being\n"
-	.string "horribly unwealthy?\p"
-	.string "I'm so glad that Timmy was able to make\n"
-	.string "such good friends with someone from a\l"
-	.string "low-income household. That kind of\l"
-	.string "diversity will really help him when he\l"
-	.string "applies to the Pokémon equivalent of\l"
-	.string "private universities.$"	
-
 LittlerootTown_BrendansHouse_1F_EventScript_SetMovingBoxes::
 	setmetatile 5, 4, METATILE_BrendansMaysHouse_MovingBox_Open, TRUE
 	setmetatile 5, 2, METATILE_BrendansMaysHouse_MovingBox_Closed, TRUE
@@ -97,6 +55,7 @@ LittlerootTown_BrendansHouse_1F_OnFrame:
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 5, LittlerootTown_BrendansHouse_1F_EventScript_GoUpstairsToSetClock
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 6, LittlerootTown_BrendansHouse_1F_EventScript_PetalburgGymReport
 	map_script_2 VAR_LITTLEROOT_HOUSES_STATE_MAY, 1, LittlerootTown_BrendansHouse_1F_EventScript_YoureNewNeighbor
+	map_script_2 VAR_LITTLEROOT_HOUSES_STATE_MAY, 3, PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV
 	.2byte 0
 
 LittlerootTown_BrendansHouse_1F_EventScript_GoUpstairsToSetClock::
