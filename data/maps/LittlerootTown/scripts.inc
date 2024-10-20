@@ -85,19 +85,19 @@ Virtopia_Gatekeeper::
 	end
 
 Virtopia_Timmy_Battle_Grass::
-	trainerbattle_no_intro TRAINER_TIMMMY_VIRTOPIA_GRASS, Virtopia_Timmy_Defeated
+	trainerbattle_no_intro TRAINER_MAY_ROUTE_103_TREECKO, Virtopia_Timmy_Defeated
 	goto Virtopia_Timmy_Post_Battle
 	end
 
 
 Virtopia_Timmy_Battle_Fire::
-	trainerbattle_no_intro TRAINER_TIMMMY_VIRTOPIA_FIRE, Virtopia_Timmy_Defeated
+	trainerbattle_no_intro TRAINER_MAY_ROUTE_103_TORCHIC, Virtopia_Timmy_Defeated
 	goto Virtopia_Timmy_Post_Battle
 	end
 
 
 Virtopia_Timmy_Battle_Water::
-	trainerbattle_no_intro TRAINER_TIMMMY_VIRTOPIA_WATER, Virtopia_Timmy_Defeated
+	trainerbattle_no_intro TRAINER_MAY_ROUTE_103_MUDKIP, Virtopia_Timmy_Defeated
 	goto Virtopia_Timmy_Post_Battle
 	end
 
