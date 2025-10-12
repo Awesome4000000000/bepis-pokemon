@@ -392,6 +392,7 @@ OldaleTown_Text_BrendanLetsGoBack:
 	.string "{PLAYER}, you should hustle back, too.$"
 
 OldaleTown_Text_TownSign:
-	.string "OLDALE TOWN\n"
-	.string "“Where things start off scarce.”$"
+	.string "Battle Village\n"
+	.string "“The best place to bet on amateur\n"
+	.string "POKéMON battles.$"
 
