@@ -24144,7 +24144,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_MAY_ROUTE_103_MUDKIP] =
     {
 #line 9670
-        .trainerName = _("TIMMY"),
+        .trainerName = _("MAY"),
 #line 9671
         .trainerClass = TRAINER_CLASS_RIVAL,
 #line 9672
@@ -24163,7 +24163,7 @@ F_TRAINER_FEMALE |
         {
             {
 #line 9678
-            .species = SPECIES_CHIKORITA,
+            .species = SPECIES_TREECKO,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 9680
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -24290,7 +24290,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_MAY_ROUTE_103_TREECKO] =
     {
 #line 9725
-        .trainerName = _("TIMMY"),
+        .trainerName = _("MAY"),
 #line 9726
         .trainerClass = TRAINER_CLASS_RIVAL,
 #line 9727
@@ -24309,7 +24309,7 @@ F_TRAINER_FEMALE |
         {
             {
 #line 9733
-            .species = SPECIES_CYNDAQUIL,
+            .species = SPECIES_TORCHIC,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 9735
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -24436,7 +24436,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_MAY_ROUTE_103_TORCHIC] =
     {
 #line 9780
-        .trainerName = _("TIMMY"),
+        .trainerName = _("MAY"),
 #line 9781
         .trainerClass = TRAINER_CLASS_RIVAL,
 #line 9782
@@ -24455,7 +24455,7 @@ F_TRAINER_FEMALE |
         {
             {
 #line 9788
-            .species = SPECIES_TOTODILE,
+            .species = SPECIES_MUDKIP,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 9790
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
