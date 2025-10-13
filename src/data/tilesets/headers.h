@@ -830,3 +830,91 @@ const struct Tileset gTileset_UnionRoom =
     .metatileAttributes = gMetatileAttributes_UnionRoom,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_Snow =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Snow,
+    .palettes = gTilesetPalettes_Snow,
+    .metatiles = gMetatiles_Snow,
+    .metatileAttributes = gMetatileAttributes_Snow,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_snow =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_snow,
+    .palettes = gTilesetPalettes_snow,
+    .metatiles = gMetatiles_snow,
+    .metatileAttributes = gMetatileAttributes_snow,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Desert =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Desert,
+    .palettes = gTilesetPalettes_Desert,
+    .metatiles = gMetatiles_Desert,
+    .metatileAttributes = gMetatileAttributes_Desert,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_desert =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_desert,
+    .palettes = gTilesetPalettes_desert,
+    .metatiles = gMetatiles_desert,
+    .metatileAttributes = gMetatileAttributes_desert,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_BeachCave =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_BeachCave,
+    .palettes = gTilesetPalettes_BeachCave,
+    .metatiles = gMetatiles_BeachCave,
+    .metatileAttributes = gMetatileAttributes_BeachCave,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Sewer =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Sewer,
+    .palettes = gTilesetPalettes_Sewer,
+    .metatiles = gMetatiles_Sewer,
+    .metatileAttributes = gMetatileAttributes_Sewer,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_DesertVillage =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_DesertVillage,
+    .palettes = gTilesetPalettes_DesertVillage,
+    .metatiles = gMetatiles_DesertVillage,
+    .metatileAttributes = gMetatileAttributes_DesertVillage,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_DesertPyramidExterior =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_DesertPyramidExterior,
+    .palettes = gTilesetPalettes_DesertPyramidExterior,
+    .metatiles = gMetatiles_DesertPyramidExterior,
+    .metatileAttributes = gMetatileAttributes_DesertPyramidExterior,
+    .callback = NULL,
+};
