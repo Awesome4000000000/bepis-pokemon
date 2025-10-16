@@ -28,6 +28,8 @@ LittlerootTown_ProfessorBirchsLab_OnTransition:
 	end
 
 Virtopia_Prof_Derek::
+	callnative StartNewPokeballCaseUI
+	waitstate
 	lock
 	faceplayer
 	compare VAR_LITTLEROOT_INTRO_STATE, 9
